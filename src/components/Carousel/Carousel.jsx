@@ -61,7 +61,6 @@ const Carousel = () => {
         setIsPaused(false);
       }}
     >
-      {console.log(isPaused)}
       <div
         ref={containerRef}
         className="flex w-full overflow-x-hidden scroll-smooth"
@@ -92,7 +91,7 @@ const Carousel = () => {
         ))}
       </div>
 
-      <div>
+      <div className="">
         <div
           onClick={() =>
             setCurrent(current - 1 === -1 ? length - 1 : current - 1)
