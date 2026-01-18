@@ -2,3 +2,7 @@
 @plugin "daisyui" {
   themes: all;
 }
+
+.active {
+  text-decoration: underline;
+}
