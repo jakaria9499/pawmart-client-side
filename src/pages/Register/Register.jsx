@@ -2,9 +2,10 @@ import { use, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
 import { AuthContext } from "../../contests/AuthContext";
+import { Bounce, toast } from "react-toastify";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, signInWithGoogle } = useContext(AuthContext);
   const handleRegister = (e) => {
     e.preventDefault();
     const input = e.target;
@@ -12,7 +13,36 @@ const Register = () => {
     const email = input.email.value;
     const password = input.password.value;
     const photoURL = input.photoURL.value;
+
+    const passwordValidation = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    if (!passwordValidation.test(password)) {
+      toast(
+        "Password must contain at least 1 uppercase, 1 lowercase letter and be minimum 6 characters long.",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        },
+      );
+      return;
+    }
     createUser(email, password)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleGoogle = () => {
+    signInWithGoogle()
       .then((result) => {
         console.log(result);
       })
@@ -60,7 +90,7 @@ const Register = () => {
               Register
             </button>
             <p className="text-center text-base font-semibold">or</p>
-            <button className="btn ">
+            <button onClick={handleGoogle} className="btn ">
               <FcGoogle size={20} />
               Continue with Google
             </button>

@@ -34,6 +34,13 @@ const Navbar = () => {
       <NavLink to="/petsSupplies">Pet & Supplies</NavLink>
     </>
   );
+  const privateLinks = (
+    <>
+      <NavLink to="/addListing">Add Listing</NavLink>
+      <NavLink to="/myListing">My Listing</NavLink>
+      <NavLink to="/myOrders">My Orders</NavLink>
+    </>
+  );
   return (
     <div
       className={`navbar bg-base-100 shadow-sm sticky top-0 left-0 w-full z-50
@@ -64,6 +71,7 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             {publicLinks}
+            {user && privateLinks}
           </div>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
@@ -71,10 +79,13 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <div className="menu menu-horizontal px-1 gap-5">{publicLinks}</div>
+        <div className="menu menu-horizontal px-1 gap-5">
+          {publicLinks}
+          {user && privateLinks}
+        </div>
       </div>
 
-      <div className="flex-none navbar-end gap-5">
+      <div className="flex navbar-end gap-5">
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             <div className="indicator">
@@ -129,10 +140,7 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
               >
                 <li>
-                  <a className="justify-between">
-                    Profile
-                    {/* <span className="badge">New</span> */}
-                  </a>
+                  <a className="justify-between">Profile</a>
                 </li>
                 <li>
                   <a>Settings</a>

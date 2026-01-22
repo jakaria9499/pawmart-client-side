@@ -4,13 +4,22 @@ import { Link } from "react-router";
 import { AuthContext } from "../../contests/AuthContext";
 
 const Login = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, signInWithGoogle } = useContext(AuthContext);
   const handleLogin = (e) => {
     e.preventDefault();
     const input = e.target;
     const email = input.email.value;
     const password = input.password.value;
     signIn(email, password)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleGoogleLogIn = () => {
+    signInWithGoogle()
       .then((result) => {
         console.log(result);
       })
@@ -46,7 +55,7 @@ const Login = () => {
               Login
             </button>
             <p className="text-center text-base font-semibold">or</p>
-            <button className="btn ">
+            <button onClick={handleGoogleLogIn} className="btn ">
               <FcGoogle size={20} />
               Login with Google
             </button>
