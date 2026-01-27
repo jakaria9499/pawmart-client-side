@@ -2,9 +2,15 @@ import React from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { TbCurrencyTaka } from "react-icons/tb";
 
-const Category = () => {
+const Category = ({ filter }) => {
   return (
-    <div className="border-1 px-2 border-gray-200 col-span-1 h-fit rounded-lg shadow-lg pb-5">
+    <div
+      className={`border px-2 border-gray-200 col-span-1 h-fit
+    rounded-lg shadow-lg pb-5 bg-base-100 z-50
+
+    md:static md:block md:w-auto
+    ${filter ? "fixed block inset-y-0 top-40 left-4 w-[260px]" : "hidden"} `}
+    >
       <h1 className="text-2xl py-2 font-semibold border-b-1 border-gray-300">
         Filter
       </h1>
@@ -33,35 +39,19 @@ const Category = () => {
         </div>
         <div className="space-y-2">
           <div className="flex gap-3 items-center">
-            <input
-              type="checkbox"
-              defaultChecked
-              className="checkbox checkbox-accent"
-            />
+            <input type="checkbox" className="checkbox checkbox-accent" />
             <p className="font-semibold text-lg">Pets</p>
           </div>
           <div className="flex gap-3 items-center">
-            <input
-              type="checkbox"
-              defaultChecked
-              className="checkbox checkbox-accent"
-            />
+            <input type="checkbox" className="checkbox checkbox-accent" />
             <p className="font-semibold text-lg">Pets Food</p>
           </div>
           <div className="flex gap-3 items-center">
-            <input
-              type="checkbox"
-              defaultChecked
-              className="checkbox checkbox-accent"
-            />
+            <input type="checkbox" className="checkbox checkbox-accent" />
             <p className="font-semibold text-lg">Pets Accessories</p>
           </div>
           <div className="flex gap-3 items-center">
-            <input
-              type="checkbox"
-              defaultChecked
-              className="checkbox checkbox-accent"
-            />
+            <input type="checkbox" className="checkbox checkbox-accent" />
             <p className="font-semibold text-lg">Care Products</p>
           </div>
         </div>

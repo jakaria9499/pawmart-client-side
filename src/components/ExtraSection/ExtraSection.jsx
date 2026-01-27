@@ -49,7 +49,7 @@ const ExtraSection = () => {
           pets
         </p>
 
-        <div className="grid grid-cols-4 max-sm:grid-cols-2 max-md:grid-cols-3 ">
+        <div className="grid grid-cols-4 max-sm:grid-cols-2 max-md:grid-cols-3 gap-5">
           <PetHeroesCard></PetHeroesCard>
           <PetHeroesCard></PetHeroesCard>
           <PetHeroesCard></PetHeroesCard>

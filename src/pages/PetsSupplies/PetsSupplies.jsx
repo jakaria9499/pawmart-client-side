@@ -1,14 +1,14 @@
 import ProductCard from "../../components/ProductCard/ProductCard";
 
-const PetsSupplies = () => {
+const PetsSupplies = ({filter}) => {
   return (
-    <div className=" col-span-4 grid grid-cols-3 gap-5 p-3">
-      {/* <ProductCard></ProductCard>
+    <div className={` col-span-4 max-lg:col-span-3 grid grid-cols-3 max-lg:grid-cols-2 gap-5 p-3  max-md:${filter?"col-span-2":"col-span-4"}`}>
       <ProductCard></ProductCard>
       <ProductCard></ProductCard>
       <ProductCard></ProductCard>
       <ProductCard></ProductCard>
-      <ProductCard></ProductCard> */}
+      <ProductCard></ProductCard>
+      <ProductCard></ProductCard>
     </div>
   );
 };
