@@ -9,6 +9,7 @@ import AddListing from "../pages/AddListing/AddListing";
 import MyListing from "../pages/MyListing/MyListing";
 import MyOrders from "../pages/MyOrders/MyOrders";
 import PetsSuppliesLayout from "../layouts/PetsSuppliesLayout";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -29,15 +30,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/addListing",
-        Component: AddListing,
-      },
-      {
-        path: "/myListing",
-        Component: MyListing,
-      },
-      {
-        path: "myOrders",
-        Component: MyOrders,
+        element: (
+          <PrivateRoute>
+            <AddListing></AddListing>
+          </PrivateRoute>
+        ),
       },
     ],
   },
