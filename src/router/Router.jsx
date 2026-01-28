@@ -36,6 +36,22 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/myListing",
+        element: (
+          <PrivateRoute>
+            <MyListing></MyListing>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/myOrders",
+        element: (
+          <PrivateRoute>
+            <MyOrders></MyOrders>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {

@@ -41,9 +41,9 @@ const AddListing = () => {
               <div className="">
                 <label className="label">Location</label>
                 <input
-                  type="password"
+                  type="text"
                   className="input w-full outline-none"
-                  placeholder="Price"
+                  placeholder="Location"
                 />
               </div>
               <div className="">
