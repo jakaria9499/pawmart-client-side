@@ -1,58 +1,61 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import OrderModal from "./OrderModal";
+import { useParams } from "react-router";
 
 const Details = () => {
+  const [cardDetails, setCardDetails] = useState();
+  const orderModel = useRef(null);
+  const { id } = useParams();
+  useEffect(() => {
+    fetch(`http://localhost:3000/petsSupplies/${id}`)
+      .then((res) => res.json())
+      .then((data) => setCardDetails(data))
+      .catch(console.error);
+  }, [id]);
+
   return (
     <div className="lg:px-10 ">
       <div className="flex gap-10 max-md:flex-col mb-10">
-        <div className="max-w-[400px]">
-          <img
-            className="rounded-lg "
-            src="https://i.ibb.co.com/DHM3Pksh/pexels-duc-tinh-ngo-2147637857-30170554.jpg"
-            alt=""
-          />
+        <div >
+          <img className="max-w-[400px] max-h-[400px] rounded-xl" src={cardDetails?.image} alt="" />
         </div>
         <div className="space-y-4">
-          <h1 className="text-3xl font-bold">Cat</h1>
+          <h1 className="text-3xl font-bold">{cardDetails?.productName}</h1>
           <p>
             <span className="font-semibold">Category: </span>
-            <span>pets</span>
+            <span>{cardDetails?.category}</span>
           </p>
           <p>
             <span className="font-semibold">Location: </span>
-            <span>Mirpur, Dhaka</span>
+            <span>{cardDetails?.location}</span>
           </p>
           <p>
             <span className="font-semibold">Owner's Email: </span>
-            <span>jakaria@gmail.com</span>
+            <span>{cardDetails?.email}</span>
           </p>
           <p className="flex items-center gap-1 font-semibold">
             <FaBangladeshiTakaSign />
-            <span>5000</span>
+            <span>{cardDetails?.price}</span>
           </p>
           <button
             className="btn btn-primary"
-            onClick={() => document.getElementById("my_modal_3").showModal()}
+            onClick={() => orderModel.current.showModal()}
           >
             Order Now
           </button>
-          <dialog id="my_modal_3" className="modal">
-            <OrderModal></OrderModal>
+          <dialog ref={orderModel} className="modal">
+            <OrderModal
+              cardDetails={cardDetails}
+              orderModel={orderModel}
+            ></OrderModal>
           </dialog>
         </div>
       </div>
       <div>
         <h1 className="text-xl font-bold">Description</h1>
-        <h2 className="text-lg font-semibold">pet</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit
-          accusamus, qui hic fugiat quidem error asperiores blanditiis odio
-          dolore voluptatum eveniet ea corrupti cum commodi a nihil nisi et
-          tempore voluptates minima, animi reprehenderit deserunt, ab
-          dignissimos! Quidem vitae ipsam voluptates quia quam aut asperiores
-          totam quo assumenda exercitationem? Asperiores.
-        </p>
+        <h2 className="text-lg font-semibold">{cardDetails?.category}</h2>
+        <p>{cardDetails?.description}</p>
       </div>
     </div>
   );

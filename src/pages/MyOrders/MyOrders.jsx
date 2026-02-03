@@ -1,9 +1,11 @@
 // import jsPDF from "jspdf";
 // import { autoTable } from "jspdf-autotable";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
+import { AuthContext } from "../../contests/AuthContext";
 
 const MyOrders = () => {
+  const { user } = useContext(AuthContext);
   // const doc = new jsPDF();
   // // It can parse html:
   // // <table id="my-table"><!-- ... --></table>
@@ -20,54 +22,67 @@ const MyOrders = () => {
   // });
 
   // doc.save("table.pdf");
+
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/myOrders?email=${user.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setOrders(data);
+      });
+  }, [user.email]);
   return (
     <div className="flex flex-col gap-5  bg-base-100 lg:w-[80%] mx-auto  ">
       <div className="p-4 pb-2 font-semibold opacity-60 tracking-wide rounded-box shadow-lg">
-        Showing: ( <span>2</span> items )
+        Showing: ( <span>{orders.length}</span> items )
       </div>
 
-      <div className="flex  rounded-box shadow-lg px-4 py-2">
-        <div className="flex gap-5 w-full">
-          <div className="flex items-center">
-            <p>1</p>
-          </div>
-          <div className="flex justify-between  w-full max-sm:flex-col">
-            <div>
-              <div>
-                <span className="font-semibold">Product Name:</span>{" "}
-                <span>Cat</span>
-              </div>
-              <div>
-                <span className="font-semibold">Buyer Name:</span>{" "}
-                <span>Jakaria</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <FaBangladeshiTakaSign /> <span>500</span>
-              </div>
-            </div>
-            <div className=" flex flex-col">
-              <div>
-                <span className="font-semibold">Quantity: </span>
-                <span>5</span>
-              </div>
-              <div>
-                <span className="font-semibold">Date: </span>
-                <span>5/1/2026</span>
-              </div>
-              <div>
-                <span className="font-semibold">Phone: </span>
-                <span>01701701701</span>
-              </div>
-            </div>
+      {orders.map((order, index) => (
+        <div className="flex  rounded-box shadow-lg px-4 py-2">
+          <div className="flex gap-5 w-full">
             <div className="flex items-center">
+              <p>{index+1}</p>
+            </div>
+            <div className="flex justify-between  w-full max-sm:flex-col">
               <div>
-                <span className="font-semibold">Address:</span>
-                <span>Mirpur 10, Dhaka</span>
+                <div>
+                  <span className="font-semibold">Product Name:</span>{" "}
+                  <span>{order.productName}</span>
+                </div>
+                <div>
+                  <span className="font-semibold">Buyer Name:</span>{" "}
+                  <span>{order.buyerName}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <FaBangladeshiTakaSign /> <span>{order.price}</span>
+                </div>
+              </div>
+              <div className=" flex flex-col">
+                <div>
+                  <span className="font-semibold">Quantity: </span>
+                  <span>{order.quantity}</span>
+                </div>
+                <div>
+                  <span className="font-semibold">Date: </span>
+                  <span>{order.date}</span>
+                </div>
+                <div>
+                  <span className="font-semibold">Phone: </span>
+                  <span>{order.phoneNumber}</span>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div>
+                  <span className="font-semibold">Address:</span>
+                  <span>{order.address}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 };
