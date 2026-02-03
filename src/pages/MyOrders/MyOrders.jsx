@@ -1,7 +1,25 @@
+// import jsPDF from "jspdf";
+// import { autoTable } from "jspdf-autotable";
 import React from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 
 const MyOrders = () => {
+  // const doc = new jsPDF();
+  // // It can parse html:
+  // // <table id="my-table"><!-- ... --></table>
+  // autoTable(doc, { html: "#my-table" });
+
+  // // Or use javascript directly:
+  // autoTable(doc, {
+  //   head: [["Name", "Email", "Country"]],
+  //   body: [
+  //     ["David", "david@example.com", "Sweden"],
+  //     ["Castille", "castille@example.com", "Spain"],
+  //     // ...
+  //   ],
+  // });
+
+  // doc.save("table.pdf");
   return (
     <div className="flex flex-col gap-5  bg-base-100 lg:w-[80%] mx-auto  ">
       <div className="p-4 pb-2 font-semibold opacity-60 tracking-wide rounded-box shadow-lg">

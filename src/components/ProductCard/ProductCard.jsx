@@ -1,5 +1,6 @@
 import React from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
+import { Link } from "react-router";
 
 const ProductCard = () => {
   return (
@@ -24,7 +25,9 @@ const ProductCard = () => {
           <p className="flex items-center gap-1">
             <FaBangladeshiTakaSign /> <span>550</span>
           </p>
-          <button className="btn btn-primary">See Details</button>
+          <Link to="/details/1" className="btn btn-primary">
+            See Details
+          </Link>
         </div>
       </div>
     </div>
