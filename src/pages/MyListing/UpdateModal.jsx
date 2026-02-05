@@ -2,24 +2,18 @@ import { useContext } from "react";
 import { AuthContext } from "../../contests/AuthContext";
 import toast from "react-hot-toast";
 
-const OrderModal = ({ cardDetails, orderModel }) => {
-  const today = new Date().toLocaleDateString("en-CA", {
-    timeZone: "Asia/Dhaka",
-  });
+const UpdateModal = ({ list, updateModal,  }) => {
   const { user } = useContext(AuthContext);
-  const handleOrders = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
     const form = e.target;
-    const productId = form.productId.value;
     const productName = form.productName.value;
-    const buyerName = form.buyerName.value;
     const email = form.email.value;
-    const quantity = form.quantity.value;
+    const category = form.category.value;
     const price = form.price.value;
+    const image = form.image.value;
     const address = form.address.value;
-    const phoneNumber = form.phoneNumber.value;
-    const date = form.date.value;
-    const additionalNotes = form.additionalNotes.value;
+    const description = form.description.value;
     // console.log(
     //   productId,
     //   productName,
@@ -32,28 +26,28 @@ const OrderModal = ({ cardDetails, orderModel }) => {
     //   date,
     //   additionalNotes,
     // );
-    const newOrder = {
-      productId: productId,
+    const newUpdate = {
       productName: productName,
-      buyerName: buyerName,
       email: email,
-      quantity: quantity,
+      category: category,
       price: price,
+      image: image,
       address: address,
-      phoneNumber: phoneNumber,
-      date: date,
-      additionalNotes: additionalNotes,
+      description: description,
     };
-    fetch("http://localhost:3000/orders", {
-      method: "POST",
+    fetch(`http://localhost:3000/update/${list._id}`, {
+      method: "PATCH",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(newOrder),
+      body: JSON.stringify(newUpdate),
     })
       .then((res) => res.json())
       .then((result) => {
-        if (result.insertedId) {
-          toast.success("Order Place Successfully");
-          orderModel.current.close();
+        console.log(result);
+        if (result.modifiedCount) {
+          toast.success("Update Successfully");
+          updateModal.current.close();
+
+          
         }
       })
       .catch((err) => toast.error(err.message));
@@ -67,18 +61,9 @@ const OrderModal = ({ cardDetails, orderModel }) => {
           ✕
         </button>
       </form>
-      <h1 className="font-semibold">Order Form</h1>
+      <h1 className="font-semibold">Update Form</h1>
       <div className="card-body">
-        <form onSubmit={handleOrders} className="fieldset">
-          <label className="label">Buyer Name</label>
-          <input
-            type="text"
-            name="buyerName"
-            className="input w-full outline-none"
-            placeholder="Buyer Name"
-            defaultValue={user?.displayName}
-            required
-          />
+        <form onSubmit={handleUpdate} className="fieldset">
           <label className="label">Email</label>
           <input
             type="email"
@@ -86,7 +71,6 @@ const OrderModal = ({ cardDetails, orderModel }) => {
             className="input w-full outline-none"
             placeholder="Email"
             defaultValue={user?.email}
-            readOnly
           />
           <label className="label">Product ID</label>
           <input
@@ -94,8 +78,9 @@ const OrderModal = ({ cardDetails, orderModel }) => {
             name="productId"
             className="input w-full outline-none"
             placeholder="Product ID"
-            defaultValue={cardDetails?._id}
+            defaultValue={list?._id}
             readOnly
+            disabled
           />
           <label className="label">Product Name</label>
           <input
@@ -103,54 +88,47 @@ const OrderModal = ({ cardDetails, orderModel }) => {
             name="productName"
             className="input w-full outline-none"
             placeholder="Product Name"
-            defaultValue={cardDetails?.productName}
-            readOnly
+            defaultValue={list?.productName}
           />
           <div className="grid grid-cols-2 gap-5 ">
             <div className="">
               <label className="label">Price</label>
               <input
                 type="text"
-                name="price"
                 className="input w-full outline-none"
                 placeholder="Price"
-                defaultValue={cardDetails?.price}
-                readOnly
-              />
-            </div>
-            <div className="">
-              <label className="label">Quantity</label>
-              <input
-                min={1}
-                max={10}
-                defaultValue={1}
-                type="number"
-                name="quantity"
-                className="input w-full outline-none"
-                placeholder="Quantity"
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-5 ">
-            <div className="">
-              <label className="label">Phone Number</label>
-              <input
-                type="text"
-                name="phoneNumber"
-                className="input w-full outline-none"
-                placeholder="Phone Number"
+                defaultValue={list?.price}
+                name="price"
                 required
               />
             </div>
-            <div className="">
-              <label className="label">Date</label>
-              <input
-                type="date"
-                name="date"
-                className="input outline-none"
-                value={today}
+            <div>
+              <label className="label">Category</label>
+              <select
+                defaultValue=""
+                className="select outline-none"
+                name="category"
                 required
-              />
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const priceInput = e.target.form.price;
+                  if (value === "Pets") {
+                    priceInput.value = "Free";
+                    priceInput.setAttribute("readonly", true);
+                  } else {
+                    priceInput.value = "";
+                    priceInput.removeAttribute("readonly");
+                  }
+                }}
+              >
+                <option value="" disabled>
+                  Select a Category
+                </option>
+                <option value="Pets">Pets</option>
+                <option value="Pets_Food">Pets_Food</option>
+                <option value="Pets_Accessories">Pets_Accessories</option>
+                <option value="Pets_Care_Products">Pets_Care_Products</option>
+              </select>
             </div>
           </div>
 
@@ -160,17 +138,29 @@ const OrderModal = ({ cardDetails, orderModel }) => {
             name="address"
             className="input w-full"
             placeholder="Address"
+            defaultValue={list?.location}
             required
           />
-          <label className="label">Additional Notes</label>
+          <label className="label">Photo URL</label>
+          <input
+            type="url"
+            name="image"
+            className="input w-full"
+            placeholder="Phone URL"
+            defaultValue={list?.image}
+            required
+          />
+          <label className="label">Description</label>
           <textarea
             className="textarea outline-none w-full"
             placeholder="Description here"
-            name="additionalNotes"
+            name="description"
+            defaultValue={list?.description}
+            required
           ></textarea>
 
           <button type="submit" className="btn btn-neutral mt-4">
-            Add List
+            Update
           </button>
         </form>
       </div>
@@ -178,4 +168,4 @@ const OrderModal = ({ cardDetails, orderModel }) => {
   );
 };
 
-export default OrderModal;
+export default UpdateModal;

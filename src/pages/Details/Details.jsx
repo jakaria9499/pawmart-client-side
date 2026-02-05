@@ -3,8 +3,9 @@ import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import OrderModal from "./OrderModal";
 import { useParams } from "react-router";
 
+
 const Details = () => {
-  const [cardDetails, setCardDetails] = useState();
+  const [cardDetails, setCardDetails] = useState({});
   const orderModel = useRef(null);
   const { id } = useParams();
   useEffect(() => {
@@ -16,9 +17,14 @@ const Details = () => {
 
   return (
     <div className="lg:px-10 ">
+
       <div className="flex gap-10 max-md:flex-col mb-10">
-        <div >
-          <img className="max-w-[400px] max-h-[400px] rounded-xl" src={cardDetails?.image} alt="" />
+        <div>
+          <img
+            className="max-w-[400px] max-h-[400px] rounded-xl"
+            src={cardDetails?.image}
+            alt=""
+          />
         </div>
         <div className="space-y-4">
           <h1 className="text-3xl font-bold">{cardDetails?.productName}</h1>

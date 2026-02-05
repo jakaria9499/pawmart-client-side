@@ -16,7 +16,6 @@ const Navbar = () => {
         toast.error(error);
       });
   };
-  console.log(user);
 
   useEffect(() => {
     const handleScroll = () => {

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../contests/AuthContext";
 
 const AddListing = () => {
   const today = new Date().toLocaleDateString("en-CA", {
     timeZone: "Asia/Dhaka",
   });
+  const { user } = useContext(AuthContext);
   const handleAddListing = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -41,6 +43,7 @@ const AddListing = () => {
 
       if (data.insertedId) {
         toast.success("Add data Successfully");
+        form.reset();
       } else {
         toast.error("Insert failed");
       }
@@ -58,6 +61,7 @@ const AddListing = () => {
               type="email"
               className="input w-full outline-none"
               placeholder="Email"
+              defaultValue={user.email}
               name="email"
               required
             />
@@ -87,6 +91,17 @@ const AddListing = () => {
                   className="select outline-none"
                   name="category"
                   required
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const priceInput = e.target.form.price;
+                    if (value === "Pets") {
+                      priceInput.value = "Free";
+                      priceInput.setAttribute("readonly", true);
+                    } else {
+                      priceInput.value = "";
+                      priceInput.removeAttribute("readonly");
+                    }
+                  }}
                 >
                   <option value="" disabled>
                     Select a Category
