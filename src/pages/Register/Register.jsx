@@ -1,11 +1,14 @@
 import { use, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../contests/AuthContext";
-import { Bounce, toast } from "react-toastify";
+import toast from "react-hot-toast";
+
 
 const Register = () => {
   const { createUser, signInWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
   const handleRegister = (e) => {
     e.preventDefault();
     const input = e.target;
@@ -16,38 +19,27 @@ const Register = () => {
 
     const passwordValidation = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!passwordValidation.test(password)) {
-      toast(
-        "Password must contain at least 1 uppercase, 1 lowercase letter and be minimum 6 characters long.",
-        {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        },
-      );
+      toast.error("Password must contain at least 1 uppercase, 1 lowercase letter and be minimum 6 characters long.");
       return;
     }
     createUser(email, password)
       .then((result) => {
-        console.log(result);
+        navigate(`${location.state ? location.state : "/"}`);
+        toast.success("Registration Successfully");
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error);
       });
   };
 
   const handleGoogle = () => {
     signInWithGoogle()
       .then((result) => {
-        console.log(result);
+        navigate(`${location.state ? location.state : "/"}`);
+        toast.success("Registration Successfully");
       })
       .catch((error) => {
-        console.log(error);
+       toast.error(error);
       });
   };
   return (

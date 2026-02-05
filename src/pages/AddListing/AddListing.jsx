@@ -1,10 +1,11 @@
 import React from "react";
+import toast from "react-hot-toast";
 
 const AddListing = () => {
   const today = new Date().toLocaleDateString("en-CA", {
     timeZone: "Asia/Dhaka",
   });
-  const handleAddListing = (e) => {
+  const handleAddListing = async (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
@@ -15,16 +16,6 @@ const AddListing = () => {
     const date = form.date.value;
     const url = form.url.value;
     const description = form.description.value;
-    console.log(
-      email,
-      productName,
-      price,
-      category,
-      location,
-      date,
-      url,
-      description,
-    );
 
     const newList = {
       productName: productName,
@@ -36,17 +27,26 @@ const AddListing = () => {
       email: email,
       date: date,
     };
-    fetch("http://localhost:3000/addList", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(newList),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
-          console.log("data inserted successfully");
-        }
+    try {
+      const res = await fetch("http://localhost:3000/addList", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(newList),
       });
+      if (!res.ok) {
+        throw new Error("Server error");
+      }
+
+      const data = await res.json();
+
+      if (data.insertedId) {
+        toast.success("Add data Successfully");
+      } else {
+        toast.error("Insert failed");
+      }
+    } catch (error) {
+      toast.error(error.message || "Network error");
+    }
   };
   return (
     <div className="flex justify-center items-center h-200">
@@ -56,9 +56,10 @@ const AddListing = () => {
             <label className="label">Email</label>
             <input
               type="email"
-              className="input w-full"
+              className="input w-full outline-none"
               placeholder="Email"
               name="email"
+              required
             />
             <label className="label">Product Name</label>
             <input
@@ -66,6 +67,7 @@ const AddListing = () => {
               className="input w-full outline-none"
               placeholder="Product Name"
               name="productName"
+              required
             />
             <div className="grid grid-cols-2 gap-5 ">
               <div className="">
@@ -75,20 +77,24 @@ const AddListing = () => {
                   className="input w-full outline-none"
                   placeholder="Price"
                   name="price"
+                  required
                 />
               </div>
-              <div className="">
+              <div>
                 <label className="label">Category</label>
                 <select
-                  defaultValue="Select a Category"
+                  defaultValue=""
                   className="select outline-none"
                   name="category"
+                  required
                 >
-                  <option disabled={true}>Select a Category</option>
-                  <option>Pets</option>
-                  <option>Pets Food</option>
-                  <option>Pets Accessories</option>
-                  <option>Pets Care Products</option>
+                  <option value="" disabled>
+                    Select a Category
+                  </option>
+                  <option value="Pets">Pets</option>
+                  <option value="Pets_Food">Pets_Food</option>
+                  <option value="Pets_Accessories">Pets_Accessories</option>
+                  <option value="Pets_Care_Products">Pets_Care_Products</option>
                 </select>
               </div>
             </div>
@@ -100,6 +106,7 @@ const AddListing = () => {
                   className="input w-full outline-none"
                   placeholder="Location"
                   name="location"
+                  required
                 />
               </div>
               <div className="">
@@ -109,6 +116,7 @@ const AddListing = () => {
                   className="input outline-none"
                   value={today}
                   name="date"
+                  required
                 />
               </div>
             </div>
@@ -116,15 +124,17 @@ const AddListing = () => {
             <label className="label">Image URL</label>
             <input
               type="url"
-              className="input w-full"
+              className="input w-full outline-none"
               placeholder="Image URL"
               name="url"
+              required
             />
             <label className="label">Description</label>
             <textarea
               className="textarea outline-none w-full"
               placeholder="Description here"
               name="description"
+              required
             ></textarea>
 
             <button type="submit" className="btn btn-neutral mt-4">

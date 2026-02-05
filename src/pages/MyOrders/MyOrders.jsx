@@ -29,7 +29,7 @@ const MyOrders = () => {
     fetch(`http://localhost:3000/myOrders?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+
         setOrders(data);
       });
   }, [user.email]);

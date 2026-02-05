@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar/Navbar";
 import { Outlet } from "react-router";
 import Footer from "../components/Footer/Footer";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 
 const HomeLayout = () => {
   return (
@@ -11,7 +11,7 @@ const HomeLayout = () => {
         <Outlet></Outlet>
       </div>
       <Footer></Footer>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 };

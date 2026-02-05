@@ -4,16 +4,23 @@ import Footer from "../components/Footer/Footer";
 import Category from "../components/Category/Category";
 import { TbFilterSearch } from "react-icons/tb";
 import { MdOutlineSort } from "react-icons/md";
-import { useState } from "react";
+import {  useState } from "react";
 
 const PetsSuppliesLayout = () => {
-  const [filter, setFilter] = useState(0);
+  const [filters, setFilters] = useState({});
+ 
+
+  const handleFilterChange = (data) => {
+    setFilters(data);
+  };
+
+
   return (
     <div data-theme="light" className="max-w-[1400px] mx-auto space-y-10">
       <Navbar></Navbar>
       <div className="mx-5 flex justify-between">
         <div
-          onClick={() => setFilter((prev) => !prev)}
+          onClick={() => setFilters((prev) => !prev)}
           className="btn md:hidden"
         >
           <p className="flex items-center gap-1 cursor-pointer ">
@@ -42,7 +49,7 @@ const PetsSuppliesLayout = () => {
                 <path d="m21 21-4.3-4.3"></path>
               </g>
             </svg>
-            <input type="text" required placeholder="Search" />
+            <input type="search" required placeholder="Search" />
           </label>
         </div>
         <div className="btn">
@@ -55,8 +62,14 @@ const PetsSuppliesLayout = () => {
         </div>
       </div>
       <div className="mx-5 grid grid-cols-5 max-lg:grid-cols-4">
-        <Category filter={filter}></Category>
-        <Outlet filter={filter} className={`col-span-3 max-lg:col-span-2 `}></Outlet>
+        <Category
+          filter={filters}
+          onFilterChange={handleFilterChange}
+        ></Category>
+        <Outlet
+          filter={filters}
+          className={`col-span-3 max-lg:col-span-2 `}
+        ></Outlet>
       </div>
       <Footer></Footer>
     </div>

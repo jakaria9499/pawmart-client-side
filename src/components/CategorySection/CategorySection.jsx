@@ -1,25 +1,26 @@
 import React from "react";
 import CategoryCard from "../CategoryCard/CategoryCard";
+import { Link } from "react-router";
 
 const CategorySection = () => {
   const category = [
     {
       image: "https://i.ibb.co.com/bjSrWR4Y/pexels-cibelebergamim-32623350.jpg",
-      title: "Pets Adoption",
+      title: "Pets",
     },
     {
       image: "https://i.ibb.co.com/9HHdnfdm/pexels-cottonbro-6568942.jpg",
-      title: "Pets Food",
+      title: "Pets_Food",
     },
     {
       image:
         "https://i.ibb.co.com/twrSvbt3/pexels-pet-foto-644780685-17818930.jpg",
-      title: "Pets Accessories",
+      title: "Pets_Accessories",
     },
     {
       image:
         "https://i.ibb.co.com/4nWDbC85/pexels-tima-miroshnichenko-6235225.jpg",
-      title: "Pets Care Products",
+      title: "Pets_Care_Products",
     },
   ];
 

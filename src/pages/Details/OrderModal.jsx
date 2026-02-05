@@ -51,7 +51,7 @@ const OrderModal = ({ cardDetails, orderModel }) => {
       .then((res) => res.json())
       .then((result) => {
         if (result.insertedId) {
-          console.log(result);
+
           orderModel.current.close();
         }
       })

@@ -1,135 +1,57 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FcViewDetails } from "react-icons/fc";
 import { GrUpdate } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
+import { AuthContext } from "../../contests/AuthContext";
+import { Link } from "react-router";
 
 const MyListing = () => {
+  const { user } = useContext(AuthContext);
+  const [lists, setLists] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/myLists?email=${user.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setLists(data);
+        
+      });
+  }, [user.email]);
   return (
     <ul className="list  bg-base-100 lg:w-[80%] mx-auto rounded-box shadow-md">
       <li className="p-4 pb-2 font-semibold opacity-60 tracking-wide">
-        Showing: ( <span>2</span> items )
+        Showing: ( <span>{lists.length}</span> items )
       </li>
 
-      <li className="list-row">
-        <div>
-          <img
-            className="size-15 rounded-box"
-            src="https://img.daisyui.com/images/profile/demo/1@94.webp"
-          />
-        </div>
-        <div>
-          <div>Dio Lupa</div>
-          <div className="text-xs font-semibold opacity-60">pets</div>
-          <div>price: </div>
-        </div>
-        <button className="btn tooltip p-2" data-tip="View Details">
-          <FcViewDetails />
-        </button>
-        <button className="btn p-2 tooltip" data-tip="Update">
-          <GrUpdate />
-        </button>
-        <button className="btn p-2 tooltip" data-tip="Delete">
-          <MdDelete />
-        </button>
-      </li>
-
-      <li className="list-row">
-        <div>
-          <img
-            className="size-10 rounded-box"
-            src="https://img.daisyui.com/images/profile/demo/4@94.webp"
-          />
-        </div>
-        <div>
-          <div>Ellie Beilish</div>
-          <div className="text-xs uppercase font-semibold opacity-60">
-            Bears of a fever
+      {lists.map((list) => (
+        <li className="list-row">
+          <div>
+            <img className="size-15 rounded-box" src={list.image} />
           </div>
-        </div>
-        <button className="btn btn-square btn-ghost">
-          <svg
-            className="size-[1.2em]"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <g
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path d="M6 3L20 12 6 21 6 3z"></path>
-            </g>
-          </svg>
-        </button>
-        <button className="btn btn-square btn-ghost">
-          <svg
-            className="size-[1.2em]"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <g
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-            </g>
-          </svg>
-        </button>
-      </li>
-
-      <li className="list-row">
-        <div>
-          <img
-            className="size-10 rounded-box"
-            src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-          />
-        </div>
-        <div>
-          <div>Sabrino Gardener</div>
-          <div className="text-xs uppercase font-semibold opacity-60">
-            Cappuccino
+          <div>
+            <div>{list.productName}</div>
+            <div className="text-xs font-semibold opacity-60">
+              {list.category}
+            </div>
+            <div>price: {list.price}</div>
           </div>
-        </div>
-        <button className="btn btn-square btn-ghost">
-          <svg
-            className="size-[1.2em]"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
+          <Link
+            to={`http://localhost:5173/details/${list._id}`}
+            className="btn tooltip p-2"
+            data-tip="View Details"
           >
-            <g
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path d="M6 3L20 12 6 21 6 3z"></path>
-            </g>
-          </svg>
-        </button>
-        <button className="btn btn-square btn-ghost">
-          <svg
-            className="size-[1.2em]"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <g
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-            </g>
-          </svg>
-        </button>
-      </li>
+            <FcViewDetails />
+          </Link>
+          <button className="btn p-2 tooltip" data-tip="Update">
+            <GrUpdate />
+          </button>
+          <button className="btn p-2 tooltip" data-tip="Delete">
+            <MdDelete />
+          </button>
+        </li>
+      ))}
+
+      
     </ul>
   );
 };
