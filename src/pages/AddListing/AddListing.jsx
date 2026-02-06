@@ -31,21 +31,18 @@ const AddListing = () => {
       email: email,
       date: date,
     };
- 
 
     try {
-      axiosSecure.post("/addList", newList).then((data) => {
-        if (data.data.insertedId) {
-          if (data.data.insertedId) {
-            toast.success("Add data Successfully");
-            form.reset();
-          } else {
-            toast.error("Insert failed");
-          }
-        }
-      });
+      const res =  axiosSecure.post("/addList", newList);
+
+      if (res.data?.insertedId) {
+        toast.success("Add data Successfully");
+        form.reset();
+      } else {
+        toast.error("Insert failed");
+      }
     } catch (error) {
-      toast.error(error.message || "Network error");
+      toast.error(error.response?.data?.message || "Network error");
     }
   };
   return (
@@ -61,6 +58,7 @@ const AddListing = () => {
               defaultValue={user.email}
               name="email"
               required
+              readOnly
             />
             <label className="label">Product Name</label>
             <input
@@ -71,16 +69,7 @@ const AddListing = () => {
               required
             />
             <div className="grid grid-cols-2 gap-5 ">
-              <div className="">
-                <label className="label">Price</label>
-                <input
-                  type="text"
-                  className="input w-full outline-none"
-                  placeholder="Price"
-                  name="price"
-                  required
-                />
-              </div>
+              
               <div>
                 <label className="label">Category</label>
                 <select
@@ -109,18 +98,19 @@ const AddListing = () => {
                   <option value="Pets_Care_Products">Pets_Care_Products</option>
                 </select>
               </div>
-            </div>
-            <div className="grid grid-cols-2 gap-5 ">
               <div className="">
-                <label className="label">Location</label>
+                <label className="label">Price</label>
                 <input
                   type="text"
                   className="input w-full outline-none"
-                  placeholder="Location"
-                  name="location"
+                  placeholder="Price"
+                  name="price"
                   required
                 />
               </div>
+            </div>
+            <div className="grid grid-cols-2 gap-5 ">
+              
               <div className="">
                 <label className="label">Date</label>
                 <input
@@ -128,6 +118,16 @@ const AddListing = () => {
                   className="input outline-none"
                   value={today}
                   name="date"
+                  required
+                />
+              </div>
+              <div className="">
+                <label className="label">Location</label>
+                <input
+                  type="text"
+                  className="input w-full outline-none"
+                  placeholder="Location"
+                  name="location"
                   required
                 />
               </div>

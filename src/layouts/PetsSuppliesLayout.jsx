@@ -4,23 +4,23 @@ import Footer from "../components/Footer/Footer";
 import Category from "../components/Category/Category";
 import { TbFilterSearch } from "react-icons/tb";
 import { MdOutlineSort } from "react-icons/md";
-import {  useState } from "react";
+import { useState } from "react";
 
 const PetsSuppliesLayout = () => {
-  const [filters, setFilters] = useState({});
- 
+  const [filters, setFilters] = useState(false);
 
   const handleFilterChange = (data) => {
     setFilters(data);
   };
-
 
   return (
     <div data-theme="light" className="max-w-[1400px] mx-auto space-y-10">
       <Navbar></Navbar>
       <div className="mx-5 flex justify-between">
         <div
-          onClick={() => setFilters((prev) => !prev)}
+          onClick={() => {
+            setFilters((prev) => !prev);
+          }}
           className="btn md:hidden"
         >
           <p className="flex items-center gap-1 cursor-pointer ">

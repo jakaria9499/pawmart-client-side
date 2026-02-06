@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { AuthContext } from "../../contests/AuthContext";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../hooks/useAxoisSecure";
 
-const UpdateModal = ({ list, updateModal,  }) => {
+const UpdateModal = ({ list, updateModal }) => {
   const { user } = useContext(AuthContext);
-  const handleUpdate = (e) => {
+  const axiosSecure = useAxiosSecure();
+  const handleUpdate = async (e) => {
     e.preventDefault();
     const form = e.target;
     const productName = form.productName.value;
@@ -35,22 +37,16 @@ const UpdateModal = ({ list, updateModal,  }) => {
       address: address,
       description: description,
     };
-    fetch(`http://localhost:3000/update/${list._id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(newUpdate),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        if (result.modifiedCount) {
-          toast.success("Update Successfully");
-          updateModal.current.close();
 
-          
-        }
-      })
-      .catch((err) => toast.error(err.message));
+    try {
+      const res = await axiosSecure.patch(`/update/${list._id}`, newUpdate);
+      if (res.data.modifiedCount) {
+        toast.success("Update Data Successfully");
+        updateModal.current.close();
+      }
+    } catch (err) {
+      toast.error(err.Response?.data?.message || "NetWork error");
+    }
   };
 
   return (
@@ -71,6 +67,7 @@ const UpdateModal = ({ list, updateModal,  }) => {
             className="input w-full outline-none"
             placeholder="Email"
             defaultValue={user?.email}
+            readOnly
           />
           <label className="label">Product ID</label>
           <input
@@ -91,17 +88,6 @@ const UpdateModal = ({ list, updateModal,  }) => {
             defaultValue={list?.productName}
           />
           <div className="grid grid-cols-2 gap-5 ">
-            <div className="">
-              <label className="label">Price</label>
-              <input
-                type="text"
-                className="input w-full outline-none"
-                placeholder="Price"
-                defaultValue={list?.price}
-                name="price"
-                required
-              />
-            </div>
             <div>
               <label className="label">Category</label>
               <select
@@ -129,6 +115,17 @@ const UpdateModal = ({ list, updateModal,  }) => {
                 <option value="Pets_Accessories">Pets_Accessories</option>
                 <option value="Pets_Care_Products">Pets_Care_Products</option>
               </select>
+            </div>
+            <div className="">
+              <label className="label">Price</label>
+              <input
+                type="text"
+                className="input w-full outline-none"
+                placeholder="Price"
+                defaultValue={list?.price}
+                name="price"
+                required
+              />
             </div>
           </div>
 

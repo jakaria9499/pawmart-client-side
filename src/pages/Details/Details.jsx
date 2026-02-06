@@ -2,22 +2,30 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import OrderModal from "./OrderModal";
 import { useParams } from "react-router";
-
+import toast from "react-hot-toast";
+import useAxiosSecure from "../../hooks/useAxoisSecure";
 
 const Details = () => {
   const [cardDetails, setCardDetails] = useState({});
   const orderModel = useRef(null);
   const { id } = useParams();
+  const axiosSecure = useAxiosSecure();
+
   useEffect(() => {
-    fetch(`http://localhost:3000/petsSupplies/${id}`)
-      .then((res) => res.json())
-      .then((data) => setCardDetails(data))
-      .catch(console.error);
-  }, [id]);
+    const details = async () => {
+      try {
+        const res = await axiosSecure.get(`/petsSupplies/${id}`);
+        setCardDetails(res.data);
+      } catch {
+        toast.error("something wrong");
+      }
+    };
+
+    details();
+  }, [id, axiosSecure]);
 
   return (
     <div className="lg:px-10 ">
-
       <div className="flex gap-10 max-md:flex-col mb-10">
         <div>
           <img

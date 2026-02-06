@@ -6,34 +6,38 @@ import { AuthContext } from "../../contests/AuthContext";
 import { Link } from "react-router";
 import toast from "react-hot-toast";
 import UpdateModal from "./UpdateModal";
+import useAxiosSecure from "../../hooks/useAxoisSecure";
 
 const MyListing = () => {
   const { user } = useContext(AuthContext);
   const [lists, setLists] = useState([]);
   const updateModal = useRef(null);
   const [currentEdit, setCurrentEdit] = useState(null);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/myLists?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setLists(data);
-      });
-  }, [user.email]);
+    const listFetch = async () => {
+      try {
+        const res = await axiosSecure.get(`/myLists?email=${user.email}`);
+        setLists(res.data);
+      } catch {
+        toast.error("something wrong");
+      }
+    };
+    listFetch();
+  }, [user.email, axiosSecure, lists]);
 
-  const handleDelete = (id) => {
-    fetch(`http://localhost:3000/product/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.deletedCount) {
-          toast.success("Delete Successfully");
-          const remaining = lists.filter((list) => list._id !== id);
-          setLists(remaining);
-        }
-      })
-      .catch((err) => toast.error(err || " something wrong"));
+  const handleDelete = async (id) => {
+    try {
+      const res = await axiosSecure.delete(`/product/${id}`);
+      if (res.data.deletedCount) {
+        toast.success("Delete Successfully");
+        const remaining = lists.filter((list) => list._id !== id);
+        setLists(remaining);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Network error");
+    }
   };
   return (
     <ul className="list  bg-base-100 lg:w-[80%] mx-auto rounded-box shadow-md">
@@ -54,7 +58,7 @@ const MyListing = () => {
             <div>price: {list.price}</div>
           </div>
           <Link
-            to={`http://localhost:5173/details/${list._id}`}
+            to={`/details/${list._id}`}
             className="btn tooltip p-2"
             data-tip="View Details"
           >

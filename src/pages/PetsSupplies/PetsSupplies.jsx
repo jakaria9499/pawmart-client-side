@@ -1,9 +1,12 @@
 import { Link, useSearchParams } from "react-router";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { useEffect, useState } from "react";
+import useAxios from "../../hooks/useAxios";
+import toast from "react-hot-toast";
 
 const PetsSupplies = () => {
   const [searchParams] = useSearchParams();
+  const axios = useAxios();
   let category = "";
   if (searchParams.get("category")) {
     category = searchParams.get("category");
@@ -11,11 +14,16 @@ const PetsSupplies = () => {
 
   const [petsProduct, setPetsProduct] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:3000/petsSupplies?category=${category}`)
-      .then((res) => res.json())
-      .then((data) => setPetsProduct(data))
-      .catch((error) => console.log(error));
-  }, [category]);
+    const pets = async () => {
+      try {
+        const res = await axios.get(`/petsSupplies?category=${category}`);
+        setPetsProduct(res.data);
+      } catch {
+        toast.error("category Loading error");
+      }
+    };
+    pets();
+  }, [category, axios]);
 
   return (
     <div

@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../../contests/AuthContext";
+import useAxiosSecure from "../../hooks/useAxoisSecure";
 import toast from "react-hot-toast";
 
 const OrderModal = ({ cardDetails, orderModel }) => {
@@ -7,7 +8,8 @@ const OrderModal = ({ cardDetails, orderModel }) => {
     timeZone: "Asia/Dhaka",
   });
   const { user } = useContext(AuthContext);
-  const handleOrders = (e) => {
+  const axiosSecure = useAxiosSecure();
+  const handleOrders = async (e) => {
     e.preventDefault();
     const form = e.target;
     const productId = form.productId.value;
@@ -44,19 +46,19 @@ const OrderModal = ({ cardDetails, orderModel }) => {
       date: date,
       additionalNotes: additionalNotes,
     };
-    fetch("http://localhost:3000/orders", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(newOrder),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.insertedId) {
-          toast.success("Order Place Successfully");
-          orderModel.current.close();
-        }
-      })
-      .catch((err) => toast.error(err.message));
+    try {
+      const res = await axiosSecure.post("/orders", newOrder);
+
+      if (res.data?.insertedId) {
+        toast.success("Order Place Successfully");
+        orderModel.current.close();
+      } else {
+        toast.error("Order failed");
+        console.log(res.data);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Network error");
+    }
   };
 
   return (

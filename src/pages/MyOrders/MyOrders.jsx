@@ -3,9 +3,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { AuthContext } from "../../contests/AuthContext";
+import useAxiosSecure from "../../hooks/useAxoisSecure";
+import toast from "react-hot-toast";
 
 const MyOrders = () => {
   const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
   // const doc = new jsPDF();
   // // It can parse html:
   // // <table id="my-table"><!-- ... --></table>
@@ -26,13 +29,16 @@ const MyOrders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/myOrders?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-
-        setOrders(data);
-      });
-  }, [user.email]);
+    const order = async () => {
+      try {
+        const res = await axiosSecure.get(`/myOrders?email=${user.email}`);
+        setOrders(res.data);
+      } catch {
+        toast.error("something wrong");
+      }
+    };
+    order();
+  }, [user.email, axiosSecure]);
   return (
     <div className="flex flex-col gap-5  bg-base-100 lg:w-[80%] mx-auto  ">
       <div className="p-4 pb-2 font-semibold opacity-60 tracking-wide rounded-box shadow-lg">
@@ -43,7 +49,7 @@ const MyOrders = () => {
         <div className="flex  rounded-box shadow-lg px-4 py-2">
           <div className="flex gap-5 w-full">
             <div className="flex items-center">
-              <p>{index+1}</p>
+              <p>{index + 1}</p>
             </div>
             <div className="flex justify-between  w-full max-sm:flex-col">
               <div>

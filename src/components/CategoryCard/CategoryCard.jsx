@@ -5,8 +5,9 @@ const CategoryCard = ({ data }) => {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(
-      `http://localhost:3000/petsSupplies?category=${encodeURIComponent(data.title)}`,
+      `/petsSupplies?category=${encodeURIComponent(data.title)}`,
     );
+    
   };
   return (
     <div
