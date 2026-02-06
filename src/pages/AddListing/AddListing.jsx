@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contests/AuthContext";
+import useAxiosSecure from "../../hooks/useAxoisSecure";
 
 const AddListing = () => {
   const today = new Date().toLocaleDateString("en-CA", {
     timeZone: "Asia/Dhaka",
   });
+  const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const handleAddListing = async (e) => {
     e.preventDefault();
@@ -29,24 +31,19 @@ const AddListing = () => {
       email: email,
       date: date,
     };
+ 
+
     try {
-      const res = await fetch("http://localhost:3000/addList", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(newList),
+      axiosSecure.post("/addList", newList).then((data) => {
+        if (data.data.insertedId) {
+          if (data.data.insertedId) {
+            toast.success("Add data Successfully");
+            form.reset();
+          } else {
+            toast.error("Insert failed");
+          }
+        }
       });
-      if (!res.ok) {
-        throw new Error("Server error");
-      }
-
-      const data = await res.json();
-
-      if (data.insertedId) {
-        toast.success("Add data Successfully");
-        form.reset();
-      } else {
-        toast.error("Insert failed");
-      }
     } catch (error) {
       toast.error(error.message || "Network error");
     }
