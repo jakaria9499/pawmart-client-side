@@ -3,10 +3,10 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../contests/AuthContext";
 import toast from "react-hot-toast";
-
+import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
-  const { createUser, signInWithGoogle } = useContext(AuthContext);
+  const { createUser, signInWithGoogle, updataUser, setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const handleRegister = (e) => {
@@ -19,13 +19,18 @@ const Register = () => {
 
     const passwordValidation = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!passwordValidation.test(password)) {
-      toast.error("Password must contain at least 1 uppercase, 1 lowercase letter and be minimum 6 characters long.");
+      toast.error(
+        "Password must contain at least 1 uppercase, 1 lowercase letter and be minimum 6 characters long.",
+      );
       return;
     }
     createUser(email, password)
       .then((result) => {
         navigate(`${location.state ? location.state : "/"}`);
         toast.success("Registration Successfully");
+        const updateData = { displayName: name, photoURL: photoURL };
+        updataUser(updateData);
+        setUser(updateData);
       })
       .catch((error) => {
         toast.error(error);
@@ -39,7 +44,7 @@ const Register = () => {
         toast.success("Registration Successfully");
       })
       .catch((error) => {
-       toast.error(error);
+        toast.error(error);
       });
   };
   return (
