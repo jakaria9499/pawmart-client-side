@@ -9,24 +9,24 @@ const Carousel = () => {
     {
       title: "Find Your Furry Friend Today 🐾",
       coverPhoto:
-        "https://i.ibb.co.com/DHM3Pksh/pexels-duc-tinh-ngo-2147637857-30170554.jpg",
+        "https://i.ibb.co.com/v7pFBqW/pexels-katya-wolf-9428245.jpg",
     },
     {
       title: "Adopt, Don’t Shop — Give a Pet a Home",
       coverPhoto:
-        "https://i.ibb.co.com/SDsXG0hM/pexels-ilargian-faus-763704-1629781.jpg",
+        "https://i.ibb.co.com/d0HKrY1v/pexels-stephen-chantzis-3647993-5810576.jpg",
     },
     {
       title: "Because Every Pet Deserves Love & Care",
-      coverPhoto: "https://i.ibb.co.com/0RQmSFgT/pexels-pppsdavid-10914510.jpg",
+      coverPhoto: "https://i.ibb.co.com/TxZKTpkj/pexels-katya-wolf-9428206.jpg",
     },
     {
       title: "Because Every Pet Deserves Love & Care",
-      coverPhoto: "https://i.ibb.co.com/0RQmSFgT/pexels-pppsdavid-10914510.jpg",
+      coverPhoto: "https://i.ibb.co.com/PXzH3RG/pexels-ekaterina-bolovtsova-5264105.jpg",
     },
     {
       title: "Because Every Pet Deserves Love & Care",
-      coverPhoto: "https://i.ibb.co.com/0RQmSFgT/pexels-pppsdavid-10914510.jpg",
+      coverPhoto: "https://i.ibb.co.com/zhnfD9qF/pexels-tahir-33998165.jpg",
     },
   ];
 

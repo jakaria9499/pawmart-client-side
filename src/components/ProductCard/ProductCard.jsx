@@ -4,12 +4,12 @@ import { Link } from "react-router";
 
 const ProductCard = ({ card }) => {
   return (
-    <div className="card bg-base-100  shadow-sm h-fit w-fit">
-      <figure>
+    <div className="card bg-base-100  shadow-sm h-fit">
+      <figure className=" max-h-64 max-sm:max-h-40 max-lg:max-h-44 bg-gray-100 flex items-center justify-center rounded-xl">
         <img
-          className="rounded-xl   max-h-60"
-          src={card?.image}
+          src={card?.image || "/no-image.png"}
           alt={card?.category}
+          className="max-w-full max-h-full object-contain"
         />
       </figure>
       <div className="card-body space-y-1">

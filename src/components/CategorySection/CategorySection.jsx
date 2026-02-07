@@ -27,7 +27,7 @@ const CategorySection = () => {
   return (
     <div className="space-y-10">
       <h2 className="text-3xl text-center font-semibold">Category</h2>
-      <div className="grid grid-cols-4 gap-5 max-sm:grid-cols-2">
+      <div className="grid grid-cols-4 gap-5 max-sm:grid-cols-2 ">
         {category.map((data, i) => (
           <CategoryCard key={i} data={data}></CategoryCard>
         ))}

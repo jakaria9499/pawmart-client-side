@@ -6,6 +6,45 @@ import { MdOutlinePets } from "react-icons/md";
 import PetHeroesCard from "../PetHeroesCard/PetHeroesCard";
 
 const ExtraSection = () => {
+  const reviews = [
+    {
+      id: 1,
+      name: "Sarah Ahmed",
+      pet: "Max",
+      image: "https://i.ibb.co.com/7dF1HHLh/pexels-fangyuanzhiwai-32688844.jpg",
+      review:
+        "Adopting Max changed my life. PawMart made the process simple and safe.",
+      rating: 5,
+    },
+    {
+      id: 2,
+      name: "Shakil Ahmed",
+      pet: "Luna",
+      image: "https://i.ibb.co.com/YJXP6vd/pexels-tkirkgoz-14572745.jpg",
+      review:
+        "Great platform for pet supplies and adoption. Highly recommended!",
+      rating: 4,
+    },
+    {
+      id: 3,
+      name: "Tamin Ekbal",
+      pet: "Rocky",
+      image: "https://i.ibb.co.com/sdGjwfDm/pexels-mart-production-8434642.jpg",
+      review:
+        "Amazing experience! The adoption process was smooth and transparent.",
+      rating: 5,
+    },
+    {
+      id: 4,
+      name: "Khairul Islam",
+      pet: "Bella",
+      image: "https://i.ibb.co.com/mrkMPYRR/pexels-ron-lach-9986349-2.jpg",
+      review:
+        "Very reliable platform. Customer support was helpful and friendly.",
+      rating: 4,
+    },
+  ];
+
   return (
     <div className="space-y-30">
       <div className="space-y-10">
@@ -49,11 +88,10 @@ const ExtraSection = () => {
           pets
         </p>
 
-        <div className="grid grid-cols-4 max-sm:grid-cols-2 max-md:grid-cols-3 gap-5">
-          <PetHeroesCard></PetHeroesCard>
-          <PetHeroesCard></PetHeroesCard>
-          <PetHeroesCard></PetHeroesCard>
-          <PetHeroesCard></PetHeroesCard>
+        <div className="grid grid-cols-4  max-md:grid-cols-2 gap-5">
+          {reviews.map((review) => (
+            <PetHeroesCard review={review}></PetHeroesCard>
+          ))}
         </div>
       </div>
     </div>
