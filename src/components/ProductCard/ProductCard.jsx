@@ -15,12 +15,10 @@ const ProductCard = ({ card }) => {
       <div className="card-body space-y-1">
         <h2 className="card-title">{card?.productName}</h2>
         <div className="flex justify-between">
-          <span className="max-sm:text-xs bg-emerald-600 px-1 rounded-full">
+          <span className="max-sm:text-xs bg-base-300 px-1 rounded-full">
             {card?.category}
           </span>
-          <span className="max-sm:text-xs bg-emerald-600 px-1 rounded-full">
-            {card?.location}
-          </span>
+          
         </div>
         <div className="card-actions justify-end">
           <p className="flex items-center gap-1">

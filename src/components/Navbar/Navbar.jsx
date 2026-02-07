@@ -81,7 +81,7 @@ const Navbar = () => {
             {user && privateLinks}
           </div>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link to="/" className="btn btn-ghost  text-xl">
           pawMart
         </Link>
       </div>
@@ -121,14 +121,14 @@ const Navbar = () => {
               </ul>
             </div>
             <div>
-              <button onClick={handleLogOut} className="btn">
+              <button onClick={handleLogOut} className="btn btn-primary">
                 Log Out
               </button>
             </div>
           </>
         ) : (
           <>
-            <Link className="btn " to="/login">
+            <Link className="btn btn-primary" to="/login">
               Login
             </Link>
           </>
